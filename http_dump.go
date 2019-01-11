@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"net/http/httputil"
@@ -8,8 +9,12 @@ import (
 
 func main() {
 
+	var port int
+	flag.IntVar(&port, "port", 8000, "The port to listen on (default 8000)")
+	flag.Parse()
+
 	s := http.Server{
-		Addr: ":8000",
+		Addr: fmt.Sprintf(":%d", port),
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			bytes, err := httputil.DumpRequest(r, true)
 			if err != nil {
